@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Best Book</h1>
+            <section>
+                <div class="burgerMenu"></div>
+                <div class="burgerMenu"></div>
+                <div class="burgerMenu"></div>
+            </section>
+        </nav>
+    </header>
+    
+    <h1 id="indexH1">Search by Title or Author</h1>
+    <form action="/searches" method="POST" id="searchForm">
+        <div id="searchDiv">
+            <input type="text" name="bookSearch" id="searchText" placeholder="Enter a Title or Auther">
+        </div>
+        <div id="radioDiv">
+            <div class="1">           
+                <input  type="radio"  name="searchType" value="title" >
+                <label for="male">Title</label><br>
+            </div>
+            <div class="1">
+                <input type="radio" id="author" name="searchType" value="author">
+                <label for="male">Author</label><br>
+            </div>
+            
+        </div>
+        <button type="submit">Search The Google App API</button>
+    </form>
+</body>
+</html>
