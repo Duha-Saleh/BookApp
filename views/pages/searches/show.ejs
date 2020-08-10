@@ -1,0 +1,10 @@
+<ul>
+    <% arraybooks.forEach(element => { %>
+      <li>
+        <img src=<%= element.bookImage %>>
+        <h1><%= element.bookName %></h1>
+        <h3><%= element.bookAuthor %></h3>
+        <p><%= element.bookDesc %></p>
+      </li>
+   <% }) %>
+</ul>
