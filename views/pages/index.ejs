@@ -9,9 +9,15 @@
         <link rel="stylesheet" href="public\styles\reset.css">
     </head>
     <body>
-        <header>
-            <nav>
-                <h1>best Book</h1>
-        <h1>Hi i am index.ejs</h1>
+        <ul>
+            <% results.forEach(element => { %>
+              <li>
+                <img src=<%= element.image_url %>>
+                <h1><%= element.title %></h1>
+                <h3><%= element.author %></h3>
+                <p><%= element.description %></p>
+              </li>
+           <% }) %>
+        </ul>
     </body>
 </html>
