@@ -1,4 +1,5 @@
 INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES (
+
   'Dune',
   'Frank Herbert',
   'ISBN_13 9780441013593',

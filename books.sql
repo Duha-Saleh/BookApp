@@ -9,3 +9,4 @@ CREATE TABLE books (
   description TEXT,
   bookshelf VARCHAR(255)
 );
+

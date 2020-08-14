@@ -1,23 +1,48 @@
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <!-- <!-- <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="public\styles\base.css">
-        <link rel="stylesheet" href="public\styles\layout.css">
-        <link rel="stylesheet" href="public\styles\modules.css">
-        <link rel="stylesheet" href="public\styles\reset.css">
-    </head>
+        <title>Document</title> -->
+        <link rel="stylesheet" href="\styles\base.css">
+        <link rel="stylesheet" href="\styles\layout.css">
+        <link rel="stylesheet" href="\styles\modules.css">
+        <link rel="stylesheet" href="\styles\reset.css">
+    </head> -->
+</head>
     <body>
+        <!-- <h2>Hello World</h2> -->
+        <header> </header>
         <ul>
-            <% results.forEach(element => { %>
+            <% results.forEach(book => { %>
               <li>
-                <img src=<%= element.image_url %>>
-                <h1><%= element.title %></h1>
-                <h3><%= element.author %></h3>
-                <p><%= element.description %></p>
+                <!-- <img  src="<%= book.bookimage %>" alt="">
+                <h2><%= book.bookname %></h2>
+                <p><%= book.bookauthor %></p>
+                <h6><%= book.bookdesc %></h6>
+                <a href="/book/<%= book.id %>"> see more details</a> -->
+                <img  src="<%= book.image_url %>" alt="">
+                <h2><%= book.title %></h2>
+                <p><%= book.author %></p>
+                <p><%= book.isbn %></p>
+                <h6><%= book.description %></h6>
+                <a href="/books/<%= book.id %>"> see more details</a>
+
               </li>
            <% }) %>
         </ul>
     </body>
 </html>
+
+<!-- changing them related to books.sql -->
+<!-- DROP TABLE IF EXISTS books;
+
+CREATE TABLE books (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255),
+  author VARCHAR(255),
+  isbn VARCHAR(255),
+  image_url VARCHAR(255),
+  description TEXT,
+  bookshelf VARCHAR(255)
+);
+ -->

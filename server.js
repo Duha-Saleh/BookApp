@@ -93,7 +93,6 @@ app.set('view engine','ejs');
 
 
 //for the database setup always
-
 const pg = require ('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
@@ -102,58 +101,93 @@ client.on('error', err => console.error(err));
 
 
 
-// API Routes
+/// API Routes
 app.get('/', getTasks);
-
-// app.get('/tasks/:task_id', getOneTask);
-
-// app.get('/add', showForm);
-
-// app.post('/add', addTask);
-
+app.get('/searches/new', newSearch);
+app.post('/searches', searchResult);
+app.post('/books', addingBooks);
+app.get('/books/:book_id', bookDetails);
 app.get('*', (req, res) => res.status(404).send('This route does not exist'));
-
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
-// HELPER FUNCTIONS
 
+
+/// HELPER FUNCTIONS
+
+//for localhost:3000
 function getTasks(request, response) {
     let SQL = 'SELECT * from books;';
-  
+    
+    //bring from index.ejs
     return client.query(SQL)
       .then(result => response.render('pages/index', { results: result.rows }))
       .catch(handleError);
   }
 
+
+//to make it catch the error when I put it afer each ther
  function handleError(error, response) {
     response.render('pages/error', { error: 'Uh Oh' });
   }
 
-//   function getOneTask(request, response) {
-//     let SQL = 'SELECT * FROM tasks WHERE id=$1;';
-//     let values = [request.params.task_id];
-  
-//     return client.query(SQL, values)
-//       .then(result => {
-//         // console.log('single', result.rows[0]);
-//         return response.render('pages/detail-view', { task: result.rows[0] });
-//       })
-//       .catch(err => handleError(err, response));
-//   }
-  
-//   function showForm(request, response) {
-//     response.render('pages/add-view');
-//   }
-  
-//   function addTask(request, response) {
-//     console.log(request.body);
-//     let { title, description, category, contact, status } = request.body;
-  
-//     let SQL = 'INSERT INTO tasks(title, description, category, contact, status) VALUES ($1, $2, $3, $4, $5);';
-//     let values = [title, description, category, contact, status];
-  
-//     return client.query(SQL, values)
-//       .then(response.redirect('/'))
-//       .catch(err => handleError(err, response));
-//   }
-  
+//for localhost:3000s/searches/new
+function newSearch(request, response){
+    response.render('pages/searches/new');
+};
+
+
+//for localhost:3000/searches
+function searchResult(req, res) {  
+    //requests from the body from new.ejs about name = ..... 
+    let bookSearch = req.body.bookSearch;
+    let searchType = req.body.searchType;
+    let maxresults = 10;
+    let url = `https://www.googleapis.com/books/v1/volumes?q=in${bookSearch}:${searchType}&maxResults=${maxresults}`;
+    
+    
+    superagent.get(url)
+    .then(data => {
+        //becuase it's array
+    let x = data.body.items.map(element => {
+        return new Book(element);
+      })
+      res.render('./pages/searches/show', {arraybooks: x});
+    })
+  };
+
+
+  function addingBooks(request, response){
+    let SQL = 'INSERT INTO books (image_url, title, author, description, isbn, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
+    let {image_url,title, author,description,isbn,bookshelf}=request.body;
+    let values = [image_url,title,author,description,isbn,bookshelf];
+   return client.query(SQL, values).then(() =>{
+    response.redirect('/');
+     })
+    };
+
+//when clicking on details
+    function bookDetails(request, response){
+    let SQL = 'SELECT * FROM books WHERE id=$1;';
+    let value = [request.params.book_id];
+  return  client.query(SQL, value).then(results =>{
+        response.render('pages/book/detail', {book: results.rows[0]});
+    });
+};
+
+  function Book(data) {
+    this.bookImage = data.volumeInfo.imageLinks.thumbnail || "https://i.imgur.com/J5LVHEL.jpg" ;
+    this.bookName = data.volumeInfo.title || 'N/A';
+    this.bookAuthor = data.volumeInfo.authors || 'N/A'; 
+    this.bookDesc = data.volumeInfo.description || 'N/A';
+};
+
+
+//
+
+
+//sudu
+//psql 
+//\l
+//\c
+//\d
+
