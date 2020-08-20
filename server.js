@@ -15,9 +15,9 @@ app.use(express.urlencoded({extended: true}));
 //to make cutting for the paths (no.ejs)
 app.set('view engine','ejs');
 app.use(express.json());
+app.use(express.static('./public'));
 
 //for the css
-app.use(express.static('./public'));
 
 //put new.ejs content when localhost:3000/search/new
 app.get('/search/new',(req,res)=>{
@@ -60,17 +60,14 @@ function Book(data) {
     this.bookDesc = data.volumeInfo.description || 'N/A';
 };
 //index.ejs is the home when localhost:3000
-app.get('/',(req,res)=>{
-    res.render('./pages/index.ejs');
-});
 
 // app.get('/hello',(req,res)=>{
 //     res.render('./pages/index');
 // });
-app.get('*',(req,res)=>{
-    res.render('./pages/error')
-});
 
-app.listen(PORT,() =>{
-    console.log(`listening to port : ${PORT}`);
-    });
+
+app.get('/',(req,res)=>{ res.render('./pages/index.ejs');});
+
+ app.get('*', (req, res) => res.status(404).render('./pages/error'));
+
+app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
