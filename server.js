@@ -17,12 +17,15 @@ app.set('view engine','ejs');
 app.use(express.json());
 app.use(express.static('./public'));
 
-//for the css
+//API and D.B
+//بس احط localhost:3000/search/new واعبي الفورم 
+// بدخل على صفحة localhost:3000/searches  فيها الكتب بمحتوى ال constructr
+
 
 //put new.ejs content when localhost:3000/search/new
-app.get('/search/new',(req,res)=>{
-    res.render('./pages/searches/new.ejs')
-});
+// app.get('/search/new',(req,res)=>{
+//     res.render('./pages/searches/new.ejs')
+// });
 
 //put the content from API (https://developers.google.com/books/docs/v1/using ) 
 //by choosing from them using constructor when localhost:3000/search/new we see the what is inside new.ejs اللي فيها الفورم 
@@ -68,6 +71,6 @@ function Book(data) {
 
 app.get('/',(req,res)=>{ res.render('./pages/index.ejs');});
 
- app.get('*', (req, res) => res.status(404).render('./pages/error'));
+app.get('*', (req, res) => res.status(404).render('./pages/error'));
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
